@@ -679,3 +679,7 @@ This project is **open source** under the [MIT License](LICENSE).
 - Push to the branch (`git push origin feature/YourFeature`)  
 - Open a Pull Request  
 
+---
+
+## 👩‍💻 Author
+Developed by Jasmine ✨
