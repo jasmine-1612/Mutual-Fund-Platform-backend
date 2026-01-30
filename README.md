@@ -2,7 +2,7 @@
 # Mutual Fund Management Backend 💰
 ![Java](https://img.shields.io/badge/Java-17-blue)
 ![Spring Boot](https://img.shields.io/badge/SpringBoot-3.1.0-green)
-![MySQL](https://img.shields.io/badge/MySQL-8.0+-yellow)
+![Oracle](https://img.shields.io/badge/Oracle-XE-red)
 ![Maven](https://img.shields.io/badge/Maven-3.8.0-orange)
 ![GitHub repo size](https://img.shields.io/github/repo-size/jasmine-1612/Mutual-Fund-Platform-backend)
 
@@ -27,29 +27,29 @@ It is ideal for:
 - 🔑 Investor Registration & Login  
 - 📈 View Portfolio and Investment Details  
 - 💵 Invest in Mutual Funds  
-- 🔄 Redeem Investments  
 - 📄 View Transaction History  
 - 🔍 Search for Mutual Funds & Stocks  
-- 📊 Generate Investment Reports  
+
 
 ### 🔐 Portfolio Manager Features  
 - 🛡 Portfolio Manager Login  
 - 🗂 Manage Mutual Funds (create, update, delete)  
 - 🗂 Manage Stocks (add, update, delete stocks)  
 - 📊 View Investor Portfolios and Transactions  
-- 📊 Generate Portfolio Performance Reports  
+
 
 ### 📦 Stock & Fund Features  
 - 📈 Track Stocks in Funds  
 - 🔄 Update Stock Prices  
 - 🏦 Assign Stocks to Mutual Funds  
-- 💹 Monitor Fund Performance based on stocks  
+
+  
 
 ### ⚙️ Technical Features  
 - ✅ **Spring Boot MVC** for backend structure  
 - ✅ **Spring Data JPA (Hibernate)** for database queries  
 - ✅ **REST APIs** for frontend integration  
-- ✅ **MySQL Database** for data storage  
+- ✅ **Oracle XE** for data storage  
 - ✅ **Maven** for dependency management  
 - ✅ **CORS Configuration** for cross-origin requests  
 - ✅ Entity mapping for Investor, PortfolioManager, MutualFund, Investment, Stock, StocksInFund  
@@ -104,32 +104,6 @@ Mutual_Fund_Project-master
 ├── **pom.xml** – Maven dependencies and build configuration  
 
 
----
-
-
-## 🚀 Getting Started  
-
-### 1️⃣ Clone the repository
-git clone https://github.com/jasmine-1612/Mutual-Fund-Platform-backend.git
-cd Mutual_Fund_Project-master
-
-### 2️⃣ Configure the database in SQL Developer / MySQL
-- Create a schema (database) named 'mutualfunddb'
-- Update the database credentials in application.properties
-
-echo "
-spring.datasource.url=jdbc:mysql://localhost:3306/mutualfunddb
-spring.datasource.username=your_sql_username
-spring.datasource.password=your_sql_password
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-" > src/main/resources/application.properties
-
-### 3️⃣ Build and run the Spring Boot application
-mvn spring-boot:run
-
-### 4️⃣ Access the API
- Base URL: http://localhost:8080/
 
  ---
 
@@ -236,46 +210,6 @@ StocksInFundService Methods:
 ---
 
 
-## Service Layer Overview:
-
-InvestorService:
-- authenticate(email, password) -> Validate and login investor
-- getAllInvestors() -> List all investors
-- addInvestor(Investor) -> Add new investor
-- emailExists(email) -> Check if email already exists
-- getInvestorInfo(id) -> Fetch investor details
-
-InvestmentService:
-- getAllInvestments() -> List all investments
-- addAInvestment(Investment) -> Add investment
-- getInvestmentDetails(id) -> Single investment
-- getInvestmentsById(investorId) -> Investments by investor
-- getAllInvestmentsByInvestorForAFund(investorId, fundId)
-- getTotalUnitsForInvestorForAFund(investorId, fundId)
-- getDistinctFundIdsByInvestorId(investorId)
-
-MutualFundService:
-- getAllMutualFunds() -> List all funds
-- createMutualFund(MutualFund) -> Add new fund
-- getMutualFundInfo(fundId) -> Fund details
-- getStockComposition(fundId) -> Stocks and weights
-- getListOfInvestedMutualFundsByInvestor(investorId) -> Funds an investor invested in
-
-PortfolioManagerService:
-- addPortfolioManager(PM) -> Add a new PM
-- getAllPortfolioManagers() -> List all PMs
-- getAllMutualFunds(managerId) -> Funds managed by PM
-
-StockService:
-- getAllStocks() -> List all stocks
-- addStocks(Stock) -> Add a new stock
-- getStockInfo(stockId) -> Stock details
-- getAllStocksBy1() -> Custom query for stocks
-
-StocksInFundService:
-- getAllStocksInFund() -> List stocks in all funds
-- addStocksWeight(StocksInFund) -> Update stock weights in a fund
-  
 
 ## 📐 System Architecture
 
@@ -460,51 +394,11 @@ erDiagram
 ---
 
 
-## 🌐 Controller Layer Diagram
 
-```mermaid
-classDiagram
-    %% Controllers
-    class InvestorController {
-        +registerInvestor()
-        +authenticateInvestor()
-        +getInvestorById()
-    }
+## 🔄 Application Flows (Sequence Diagrams)
 
-    class InvestmentController {
-        +addInvestment()
-        +getAllInvestments()
-        +getInvestmentsByInvestor()
-    }
 
-    class MutualFundController {
-        +getAllFunds()
-        +getFundById()
-        +getStockComposition()
-        +createFund()
-    }
-
-    class StockController {
-        +getAllStocks()
-        +addStock()
-    }
-
-    %% Services
-    class InvestorService
-    class InvestmentService
-    class MutualFundService
-    class StockService
-
-    %% Relationships
-    InvestorController --> InvestorService
-    InvestmentController --> InvestmentService
-    MutualFundController --> MutualFundService
-    StockController --> StockService
-
-```
----
-
-## 🔄 Investment Flow (Sequence Diagram)
+###  Investment Flow
 
 ```mermaid
 sequenceDiagram
@@ -514,15 +408,15 @@ sequenceDiagram
     participant MFService as MutualFundService
     participant Repo as InvestmentRepository
 
-    %% Investor sends a request to invest
+    %% Investor sends request to invest
     Investor ->> Controller: POST /investments/add (investorId, fundId, amount)
 
     %% Controller calls service layer
     Controller ->> Service: addAInvestment(investorId, fundId, amount)
 
-    %% Service gets mutual fund details
+    %% Service fetches mutual fund details
     Service ->> MFService: getMutualFundInfo(fundId)
-    MFService -->> Service: return fund NAV and details
+    MFService -->> Service: return NAV and fund details
 
     %% Service calculates units to assign
     Service ->> Service: calculate units (amount / NAV)
@@ -534,11 +428,122 @@ sequenceDiagram
     %% Service returns response to controller
     Service -->> Controller: InvestmentResponse
 
-    %% Controller returns success to investor
+    %% Controller responds to investor
     Controller -->> Investor: 201 CREATED / Investment details
 
+```
+
+---
+
+
+### View Investor Portfolio Flow
+
+```mermaid
+sequenceDiagram
+    actor Investor
+    participant Controller as InvestmentController
+    participant Service as InvestmentService
+    participant Repo as InvestmentRepository
+
+    Investor ->> Controller: GET /investments/id/{investorId}
+    Controller ->> Service: getInvestmentsById(investorId)
+    Service ->> Repo: findByInvestorId(investorId)
+    Repo -->> Service: investment list
+    Service -->> Controller: portfolio data
+    Controller -->> Investor: 200 OK
 
 ```
+
+---
+
+
+### Investor Registration
+
+```mermaid
+sequenceDiagram
+    actor Investor
+    participant Controller as InvestorController
+    participant Service as InvestorService
+    participant Repo as InvestorRepository
+
+    %% Investor sends registration request
+    Investor ->> Controller: POST /investors (firstName, lastName, email, contactNumber, password)
+
+    %% Controller validates input & calls service
+    Controller ->> Service: addInvestor(Investor)
+
+    %% Service checks if email exists
+    Service ->> Repo: findByEmail(email)
+    Repo -->> Service: return null or existing investor
+
+    %% Service saves new investor
+    Service ->> Repo: save(Investor)
+    Repo -->> Service: return saved investor
+
+    %% Service returns response to controller
+    Service -->> Controller: success message
+
+    %% Controller responds to investor
+    Controller -->> Investor: 201 CREATED / "Investor registered successfully"
+
+```
+
+---
+
+
+
+### Investor Login
+
+```mermaid
+sequenceDiagram
+    actor Investor
+    participant Controller as InvestorController
+    participant Service as InvestorService
+    participant Repo as InvestorRepository
+
+    %% Investor sends login request
+    Investor ->> Controller: POST /login (email, password)
+
+    %% Controller validates input
+    Controller ->> Service: authenticate(email, password)
+
+    %% Service retrieves investor by email
+    Service ->> Repo: findByEmail(email)
+    Repo -->> Service: return Investor
+
+    %% Service checks password
+    Service ->> Service: compare passwords
+    Service -->> Controller: Investor object or null
+
+    %% Controller returns response
+    alt Success
+        Controller -->> Investor: 200 OK / Login successful
+    else Failure
+        Controller -->> Investor: 401 UNAUTHORIZED / Invalid credentials
+    end
+```
+
+---
+
+
+### Mutual Fund Creation Flow (Portfolio Manager)
+
+```mermaid
+sequenceDiagram
+    actor PortfolioManager
+    participant Controller as MutualFundController
+    participant Service as MutualFundService
+    participant Repo as MutualFundRepository
+
+    PortfolioManager ->> Controller: POST /mutualfund/add
+    Controller ->> Service: createMutualFund(MutualFund)
+    Service ->> Repo: save(MutualFund)
+    Repo -->> Service: saved fund
+    Service -->> Controller: success
+    Controller -->> PortfolioManager: 201 CREATED
+
+```
+
 ---
 
 
@@ -547,13 +552,14 @@ sequenceDiagram
 - **Java 17**
 - **Spring Boot 3.1.0**
 - **Spring Data JPA / Hibernate**
-- **MySQL 8.0+**
+- **Oracle XE**
 - **Maven 3.8+**
 - **REST APIs**
 - **CORS Configuration**
 - **GitHub for version control**
 
 ---
+
 
 
 ## 🔐 Security & Validation
@@ -567,6 +573,74 @@ sequenceDiagram
    - Controller → Request handling
    - Service → Business logic
    - Repository → Data persistence
+
+---
+
+
+## 🚀 Getting Started  
+
+### 1️⃣ Clone the repository
+git clone https://github.com/jasmine-1612/Mutual-Fund-Platform-backend.git
+cd Mutual_Fund_Project-master
+
+### 2️⃣ Configure the database in SQL Developer (Oracle XE)
+
+Open SQL Developer and create a new schema (user) for the application. Example:
+
+```properties
+CREATE USER mutualfunddb IDENTIFIED BY your_password;
+GRANT CONNECT, RESOURCE, CREATE SESSION TO mutualfunddb;
+```
+
+Grant privileges for CRUD operations on tables:
+
+```properries
+GRANT SELECT, INSERT, UPDATE, DELETE ON mutualfunddb.* TO mutualfunddb;
+```
+
+Update the database credentials in application.properties using environment variables.
+
+
+
+### 3️⃣ Update application.properties
+
+```properties
+# Tomcat server port
+server.port=8188
+
+# Oracle Database Configuration
+spring.datasource.url=jdbc:oracle:thin:@localhost:1521/xepdb1
+spring.datasource.username=${DB_USERNAME}
+spring.datasource.password=${DB_PASSWORD}
+spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
+
+# JPA / Hibernate Configuration
+spring.jpa.database-platform=org.hibernate.dialect.Oracle12cDialect
+spring.jpa.hibernate.ddl-auto=none
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+```
+
+### 4️⃣ Build and run the Spring Boot application
+mvn spring-boot:run
+
+### 5️⃣ Access the API
+ Base URL: http://localhost:8188/
+
+
+---
+
+
+## ⚙️ Application Configuration
+
+### Server
+- The application runs on port **8188**
+
+### Database
+- Database: **Oracle XE**
+- Service name: **xepdb1**
+
+Before running the application, set the following environment variables:
 
 ---
 
@@ -605,4 +679,3 @@ This project is **open source** under the [MIT License](LICENSE).
 - Push to the branch (`git push origin feature/YourFeature`)  
 - Open a Pull Request  
 
----
