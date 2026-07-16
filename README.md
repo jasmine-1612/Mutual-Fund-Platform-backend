@@ -17,7 +17,9 @@ It is ideal for:
 - 💡 Practicing Spring Boot and REST API development  
 - 🏦 Financial project demos and learning  
 - 📊 Handling relational data with MySQL  
-- 🌐 Integrating with frontend applications  
+- 🌐 Integrating with frontend applications
+
+ ##### Frontned - https://github.com/jasmine-1612/Mutual-Fund-Platform-frontend- 
 
 ---
 
